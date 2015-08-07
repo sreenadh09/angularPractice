@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Factory Service</title>
+</head>
+<body ng-app="app">
+
+<div ng-controller="MainCtrl as mainctrl">
+<button ng-click="mainctrl.tabSelect('first')">First Tab</button>
+<button ng-click="mainctrl.tabSelect('second')">Second Tab</button>	
+
+<div ng-switch on = "mainctrl.tab">
+	<div ng-switch-when="first">
+		<div ng-controller="SubCtrl as ctrl">
+			<h3>first tab</h3>
+			<h3> item list </h3>
+			<li ng-repeat="item in ctrl.items()">
+				<span ng-bind="item.name"></span>
+			</li>
+			
+			<button ng-click="ctrl.add()">add item</button>
+		</div>
+	</div>
+	<div ng-switch-when="second">
+		<div ng-controller="SubCtrl as ctrl">
+			<h3>second tab</h3>
+			<h3> item list </h3>
+			<li ng-repeat="item in ctrl.items()">
+				<span ng-bind="item.name"></span>
+			</li>
+			<button ng-click="ctrl.add()">add item</button>
+		</div>
+	</div>
+
+</div>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.js"></script>
+<script type="text/javascript">
+	angular.module('app', [])
+		.controller('MainCtrl', [function(){
+			var self= this;
+			self.tab = 'first';
+			self.tabSelect = function(tab){
+				self.tab = tab;
+			};
+		}])
+
+		.controller('SubCtrl', ['ItemService', function(ItemService){
+			var self= this;
+			self.items = function(){
+				return ItemService.list();
+			};
+			self.add = function(){
+				ItemService.itemadd(
+				{
+					name: "sr1", id: 3
+
+				});
+			};
+		}])
+
+		.factory('ItemService', [function(){
+
+			var list1 = [
+			{ name: "Sreenadh", id:1},
+			{name: "mini", id:2}
+			];
+			
+			return {
+				list : function(){
+					return list1;
+				},
+				itemadd : function(item){
+					list1.push(item);
+				}
+			};
+		
+		}]);
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Location Service</title>
+</head>
+<body ng-app="app">
+<div ng-controller="MainCtrl as ctrl">
+
+{{ ctrl.url1 }}</br>
+{{ ctrl.path1 }}</br>
+{{ ctrl.search1 }}
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.js"></script>
+<script type="text/javascript">
+	
+angular.module('app', [])
+	.controller('MainCtrl', ['$location', function($location){
+
+		//this.abs1 = $location.absUrl();
+		this.url1 = $location.url();
+		this.path1 = $location.path();
+		this.search1 = $location.search();
+
+	}]);
+</script>
+
+</body>
+</html>
